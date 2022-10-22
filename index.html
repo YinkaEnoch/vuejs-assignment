@@ -15,32 +15,36 @@
 <body>
 
     <div id="app">
-        <main class="container">
+        <div class="main-container">
+            <h1>Lessons</h1>
+            <main class="container">
                 <!--Looping across the Avaliable Lesson-->
                 <section class="paragraph" v-for="item in data" :key="data.id">
-                    <p class="subject" >Subject: {{item.subject}}</p>
+                    <p class="subject">Subject: {{item.subject}}</p>
                     <p class="location">Location: {{item.location}}</p>
                     <p class="price">Price: €{{item.price}}</p>
-                    <p class="space" >Spaces: {{item.space}}</p>
+                    <p class="space">Spaces: {{item.space}}</p>
                     <img class="image" :src="item.imgURL" alt="">
                     <button class="add" v-on:click="addToCart" v-if="item.space > 0">Add to Cart</button>
                     <!--Disable button when no space left-->
-                    <button class="add" disabled="disabled" v-else=>Add to Cart</button>
+                    <button class="add" disabled="disabled" v-else>Add to Cart</button>
 
                 </section>
 
-                <section class="paragraph" v-for="item in cart" :key="data.id">
-                <p class="subject" >Subject: {{item.subject}}</p>
-                    <p class="location">Location: {{item.location}}</p>
-                    <p class="price">Price: €{{item.price}}</p>
-                    <p class="space" >Spaces: {{item.space}}</p>
-                    <img class="image" :src="item.imgURL" alt="">
-                    <button class="add" v-on:click="addToCart" v-if="item.space > 0">Add to Cart</button>
-                    <!--Disable button when no space left-->
-                    <button class="add" disabled="disabled" v-else=>Remove</button>
-                </section>
-        
-        </main>
+                
+
+            </main>
+            <h1>Lessons</h1>
+            <section class="paragraph" v-for="item in cart" :key="data.id">
+                <p class="subject">Subject: {{item.subject}}</p>
+                <p class="location">Location: {{item.location}}</p>
+                <p class="price">Price: €{{item.price}}</p>
+                <p class="space">Spaces: {{item.space}}</p>
+                <img class="image" :src="item.imgURL" alt="">
+                <button class="add" @click="removeFromCart" >Remove</button>
+            </section>
+
+        </div>
     </div>
 
 
@@ -53,20 +57,25 @@
         createApp({
             data() {
                 return {
-                    cart:[],
-                    data : lesson
+                    cart: [],
+                    data: lesson
                 }
             },
             methods: {
-                addToCart (lesson,key, value){
-                    this.cart.push(this.data["id"])
+                addToCart(lesson, key, value) {
+                    // this.cart.push(this.data["id"])
+                    this.lesson.space -= 1
+                    console.log(this.lesson.space)
                     console.log(this.cart)
+                },
+                removeFromCart(){
+                    
                 }
             },
-            computed:{
-            
+            computed: {
+
             },
-            component:{
+            component: {
 
             }
         }).mount('#app');
