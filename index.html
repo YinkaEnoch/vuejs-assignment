@@ -1,86 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Learn git</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <div id="app">
-        <div class="main-container">
-            <h1>Lessons</h1>
-            <main class="container">
-                <!--Looping across the Avaliable Lesson-->
-                <section class="paragraph" v-for="item in data" :key="data.id">
-                    <p class="subject">Subject: {{item.subject}}</p>
-                    <p class="location">Location: {{item.location}}</p>
-                    <p class="price">Price: €{{item.price}}</p>
-                    <p class="space">Spaces: {{item.space}}</p>
-                    <img class="image" :src="item.imgURL" alt="">
-                    <button class="add" v-on:click="addToCart" v-if="item.space > 0">Add to Cart</button>
-                    <!--Disable button when no space left-->
-                    <button class="add" disabled="disabled" v-else>Add to Cart</button>
-
-                </section>
-
-                
-
-            </main>
-            <h1>Lessons</h1>
-            <section class="paragraph" v-for="item in cart" :key="data.id">
-                <p class="subject">Subject: {{item.subject}}</p>
-                <p class="location">Location: {{item.location}}</p>
-                <p class="price">Price: €{{item.price}}</p>
-                <p class="space">Spaces: {{item.space}}</p>
-                <img class="image" :src="item.imgURL" alt="">
-                <button class="add" @click="removeFromCart" >Remove</button>
-            </section>
-
-        </div>
+      <div class="main-container">
+        <h1>Lessons</h1>
+        <main class="container">
+          <!--Looping across the Avaliable Lesson-->
+          <section class="paragraph" v-for="item in data" :key="item.id">
+            <p class="subject">Subject: {{ item.subject }}</p>
+            <p class="location">Location: {{ item.location }}</p>
+            <p class="price">Price: €{{ item.price }}</p>
+            <p class="space">Spaces: {{ item.space }}</p>
+            <img class="image" :src="item.imgURL" alt="" />
+            <button
+              class="add"
+              v-on:click="addToCart($event, item.id)"
+              v-if="item.space > 0"
+            >
+              Add to Cart
+            </button>
+            <!--Disable button when no space left-->
+            <button class="add" disabled="disabled" v-else>Add to Cart</button>
+          </section>
+        </main>
+        <h1>Lessons</h1>
+        <section class="paragraph" v-for="item in cart" :key="item.id">
+          <p class="subject">Subject: {{ item.subject }}</p>
+          <p class="location">Location: {{ item.location }}</p>
+          <p class="price">Price: €{{ item.price }}</p>
+          <p class="space">Spaces: {{ item.space }}</p>
+          <img class="image" :src="item.imgURL" alt="" />
+          <button class="add" @click="removeFromCart">Remove</button>
+        </section>
+      </div>
     </div>
 
-
-
     <script type="module">
-        //Importing  the Json file
-        import lesson from "./lessonData.json" assert {type: 'json'}
-        const { createApp } = Vue
+      //Importing  the Json file
+      import lesson from "./lessonData.json" assert { type: "json" };
+      const { createApp } = Vue;
 
-        createApp({
-            data() {
-                return {
-                    cart: [],
-                    data: lesson
-                }
-            },
-            methods: {
-                addToCart(lesson, key, value) {
-                    // this.cart.push(this.data["id"])
-                    this.lesson.space -= 1
-                    console.log(this.lesson.space)
-                    console.log(this.cart)
-                },
-                removeFromCart(){
-                    
-                }
-            },
-            computed: {
+      createApp({
+        data() {
+          return {
+            cart: [],
+            data: lesson,
+          };
+        },
+        methods: {
+          addToCart(event, id) {
+            let idx;
+            let [item, index] = this.data.filter((k, index) => {
+              if (k.id == id) {
+                idx = index;
+                return k;
+              }
+            });
 
-            },
-            component: {
+            this.data[idx].space -= 1;
 
-            }
-        }).mount('#app');
+            this.cart.push(item);
+          },
+          removeFromCart() {},
+        },
+        computed: {},
+        component: {},
+      }).mount("#app");
     </script>
-
-</body>
-
+  </body>
 </html>
+
